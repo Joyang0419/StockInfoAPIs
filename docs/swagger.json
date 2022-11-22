@@ -1,0 +1,142 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "StockInfoAPIs swagger",
+        "title": "StockInfoAPIs",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "0.0.0.0:8080",
+    "paths": {
+        "/daily_price": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "1101",
+                        "description": "股票代碼",
+                        "name": "stock_code",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "2020-01-01",
+                        "description": "開始日期",
+                        "name": "start_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "2020-01-02",
+                        "description": "結束日期",
+                        "name": "end_date",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dailyRouter.DailySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dailyRouter.DailyErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dailyRepo.DailyPrice": {
+            "type": "object",
+            "properties": {
+                "calculateDate": {
+                    "description": "價格日期",
+                    "type": "string",
+                    "example": "2020-01-02T00:00:00+08:00"
+                },
+                "categoryName": {
+                    "description": "類別名稱",
+                    "type": "string",
+                    "example": "水泥工業"
+                },
+                "closingPrice": {
+                    "description": "收盤價",
+                    "type": "number",
+                    "example": 44.1
+                },
+                "highestPrice": {
+                    "description": "最高價",
+                    "type": "number",
+                    "example": 44.15
+                },
+                "lowestPrice": {
+                    "description": "最低價",
+                    "type": "number",
+                    "example": 43.8
+                },
+                "openingPrice": {
+                    "description": "開盤價",
+                    "type": "number",
+                    "example": 43.8
+                },
+                "stockCode": {
+                    "description": "股票代碼",
+                    "type": "string",
+                    "example": "1101"
+                },
+                "stockName": {
+                    "description": "股票名稱",
+                    "type": "string",
+                    "example": "台泥"
+                },
+                "volume": {
+                    "description": "交易量(張)",
+                    "type": "number",
+                    "example": 18471
+                }
+            }
+        },
+        "dailyRouter.DailyErrorResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "string",
+                    "example": "Required params: [stock_code, start_date, end_date]"
+                },
+                "statusCode": {
+                    "type": "integer",
+                    "example": 400
+                }
+            }
+        },
+        "dailyRouter.DailySuccessResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dailyRepo.DailyPrice"
+                    }
+                },
+                "statusCode": {
+                    "type": "integer",
+                    "example": 200
+                }
+            }
+        }
+    }
+}

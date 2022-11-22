@@ -1,0 +1,101 @@
+definitions:
+  dailyRepo.DailyPrice:
+    properties:
+      calculateDate:
+        description: 價格日期
+        example: "2020-01-02T00:00:00+08:00"
+        type: string
+      categoryName:
+        description: 類別名稱
+        example: 水泥工業
+        type: string
+      closingPrice:
+        description: 收盤價
+        example: 44.1
+        type: number
+      highestPrice:
+        description: 最高價
+        example: 44.15
+        type: number
+      lowestPrice:
+        description: 最低價
+        example: 43.8
+        type: number
+      openingPrice:
+        description: 開盤價
+        example: 43.8
+        type: number
+      stockCode:
+        description: 股票代碼
+        example: "1101"
+        type: string
+      stockName:
+        description: 股票名稱
+        example: 台泥
+        type: string
+      volume:
+        description: 交易量(張)
+        example: 18471
+        type: number
+    type: object
+  dailyRouter.DailyErrorResponse:
+    properties:
+      data:
+        example: 'Required params: [stock_code, start_date, end_date]'
+        type: string
+      statusCode:
+        example: 400
+        type: integer
+    type: object
+  dailyRouter.DailySuccessResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dailyRepo.DailyPrice'
+        type: array
+      statusCode:
+        example: 200
+        type: integer
+    type: object
+host: 0.0.0.0:8080
+info:
+  contact: {}
+  description: StockInfoAPIs swagger
+  title: StockInfoAPIs
+  version: "1.0"
+paths:
+  /daily_price:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - default: "1101"
+        description: 股票代碼
+        in: query
+        name: stock_code
+        required: true
+        type: string
+      - default: "2020-01-01"
+        description: 開始日期
+        in: query
+        name: start_date
+        required: true
+        type: string
+      - default: "2020-01-02"
+        description: 結束日期
+        in: query
+        name: end_date
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dailyRouter.DailySuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dailyRouter.DailyErrorResponse'
+swagger: "2.0"

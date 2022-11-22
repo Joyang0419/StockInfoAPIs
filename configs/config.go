@@ -2,6 +2,8 @@ package configs
 
 import (
 	"github.com/spf13/viper"
+	"path/filepath"
+	"strings"
 )
 
 type Config struct {
@@ -21,6 +23,9 @@ type DbConfig struct {
 }
 
 func LoadConfig(path string, configName string, configType string) (config Config, err error) {
+	if lastPath := filepath.Base(path); lastPath == "integrations" {
+		path = strings.ReplaceAll(path, "test/integrations", "")
+	}
 	viper.AddConfigPath(path)
 	viper.SetConfigName(configName)
 	viper.SetConfigType(configType)
