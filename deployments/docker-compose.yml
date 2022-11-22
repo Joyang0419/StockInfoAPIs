@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  stock_info_apis:
+    build:
+      context: ../
+      dockerfile: ./deployments/Dockerfile
+    image: stock_info_apis
+    container_name: stock_info_apis
+    networks:
+      stock-proxy:
+        ipv4_address: 172.20.0.103
+    ports:
+      - "8080:8080"
+
+networks:
+  stock-proxy:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/24
