@@ -1,8 +1,8 @@
 package main
 
 import (
-	"StockInfoAPIs"
 	_ "StockInfoAPIs/inits"
+	"StockInfoAPIs/internals"
 	"StockInfoAPIs/internals/middleware"
 	"StockInfoAPIs/internals/routers/dailyRouter"
 	"github.com/gin-gonic/gin"
@@ -21,7 +21,7 @@ func main() {
 		middleware.JSONLogMiddleware(true, log.DebugLevel),
 	}
 
-	server := StockInfoAPIs.NewServer(
+	server := internals.NewServer(
 		gin.DebugMode, []func(router *gin.Engine){dailyRouter.Route}, middlewares...)
 	err := server.Run()
 	if err != nil {

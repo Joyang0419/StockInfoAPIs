@@ -1,7 +1,7 @@
-package StockInfoAPIs
+package internals
 
 import (
-	_ "StockInfoAPIs/docs" // 匯入swagger docs
+	_ "StockInfoAPIs/swaggerDocs" // 匯入swagger docs
 	"fmt"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"

@@ -1,9 +1,8 @@
 package integrations_test
 
 import (
-	"StockInfoAPIs"
 	_ "StockInfoAPIs/inits"
-	"StockInfoAPIs/internals/routers"
+	"StockInfoAPIs/internals"
 	"StockInfoAPIs/internals/routers/dailyRouter"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
@@ -15,7 +14,7 @@ import (
 )
 
 func TestDailyRouter(t *testing.T) {
-	server := StockInfoAPIs.NewServer(gin.DebugMode, []func(router *gin.Engine){dailyRouter.Route})
+	server := internals.NewServer(gin.DebugMode, []func(router *gin.Engine){dailyRouter.Route})
 
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "http://0.0.0.0:8080/daily_price?stock_code=1101&start_date=2020-01-01&end_date=2020-01-03", nil)
@@ -24,7 +23,7 @@ func TestDailyRouter(t *testing.T) {
 	assert.Equal(t, recorder.Code, http.StatusOK)
 
 	decoder := json.NewDecoder(recorder.Body)
-	var data routers.RouteResponse
+	var data dailyRouter.DailySuccessResponse
 	_ = decoder.Decode(&data)
-	assert.Equal(t, reflect.TypeOf(data), reflect.TypeOf(routers.RouteResponse{}))
+	assert.Equal(t, reflect.TypeOf(data), reflect.TypeOf(dailyRouter.DailySuccessResponse{}))
 }

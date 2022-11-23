@@ -7,7 +7,7 @@ import (
 
 func CorsConfig() cors.Config {
 	corsConf := cors.DefaultConfig()
-	corsConf.AllowAllOrigins = true
+	corsConf.AllowOrigins = []string{"*"}
 	corsConf.AllowMethods = []string{"GET", "POST", "DELETE", "OPTIONS", "PUT"}
 	corsConf.AllowHeaders = []string{"Authorization", "Content-Type", "Upgrade", "Origin",
 		"Connection", "Accept-Encoding", "Accept-Language", "Host",
